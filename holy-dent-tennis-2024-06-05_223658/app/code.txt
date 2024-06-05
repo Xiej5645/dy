@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Video Player with Equalizer</title>
+    <style>
+        button {
+            font-size: 16px;
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .control-group {
+            margin-right: 20px;
+        }
+
+        input[type="range"] {
+            width: 150px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Video Player with Equalizer</h1>
+
+    <ul style="display: flex; flex-direction: row;">
+        <li style="padding-left:0px">
+            <button type="button" onclick="loadVideo('https://europe.olemovienews.com/ts3/20240510/rCqEomcC/mp4/rCqEomcC.mp4/master.m3u8')">
+                歌手2024 Ep1(Default) 2024.05.10
+            </button>
+        </li>
+        <li style="margin-left:30px">
+            <button type="button" onclick="loadVideo('https://europe.olemovienews.com/ts3/20240517/CEsCniDg/mp4/CEsCniDg.mp4/master.m3u8')">
+                歌手2024 Ep2 2024.05.17
+            </button>
+        </li>
+    </ul>
+
+    <div class="controls">
+        <div class="control-group">
+            <label for="bass">Bass</label>
+            <input type="range" id="bass" class="slider" min="-30" max="30" value="0">
+        </div>
+        <div class="control-group">
+            <label for="mid">Mid</label>
+            <input type="range" id="mid" class="slider" min="-30" max="30" value="0">
+        </div>
+        <div class="control-group">
+            <label for="treble">Treble</label>
+            <input type="range" id="treble" class="slider" min="-30" max="30" value="0">
+        </div>
+    </div>
+
+    <center>
+        <video width="500px" id="video" controls controlslist="nodownload noremoteplayback" allowfullscreen allow="picture-in-picture" playsinline webkit-playsinline autoplay></video>
+    </center>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <script>
+        var video = document.getElementById('video');
+        var hls;
+
+        function loadVideo(sourceUrl) {
+            if (Hls.isSupported()) {
+                if (hls) {
+                    hls.destroy();
+                }
+                hls = new Hls();
+                hls.loadSource(sourceUrl);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+                    video.play();
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = sourceUrl;
+                video.play();
+            }
+        }
+
+        const bassSlider = document.getElementById('bass');
+        const midSlider = document.getElementById('mid');
+        const trebleSlider = document.getElementById('treble');
+
+        let audioContext;
+        let source;
+        let bassEQ;
+        let midEQ;
+        let trebleEQ;
+
+        function initializeAudio() {
+            if (audioContext) return;
+
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            source = audioContext.createMediaElementSource(video);
+
+            bassEQ = audioContext.createBiquadFilter();
+            bassEQ.type = 'lowshelf';
+            bassEQ.frequency.value = 500;
+            bassEQ.gain.value = 0;
+
+            midEQ = audioContext.createBiquadFilter();
+            midEQ.type = 'peaking';
+            midEQ.frequency.value = 1500;
+            midEQ.gain.value = 0;
+
+            trebleEQ = audioContext.createBiquadFilter();
+            trebleEQ.type = 'highshelf';
+            trebleEQ.frequency.value = 3000;
+            trebleEQ.gain.value = 0;
+
+            source.connect(bassEQ);
+            bassEQ.connect(midEQ);
+            midEQ.connect(trebleEQ);
+            trebleEQ.connect(audioContext.destination);
+
+            function updateEQ() {
+                bassEQ.gain.value = bassSlider.value;
+                midEQ.gain.value = midSlider.value;
+                trebleEQ.gain.value = trebleSlider.value;
+            }
+
+            bassSlider.addEventListener('input', updateEQ);
+            midSlider.addEventListener('input', updateEQ);
+            trebleSlider.addEventListener('input', updateEQ);
+
+            updateEQ();
+        }
+
+        video.addEventListener('play', initializeAudio);
+    </script>
+</body>
+
+</html>
