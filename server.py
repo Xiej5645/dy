@@ -1,6 +1,5 @@
 from flask import Flask, render_template, jsonify
 import requests
-import re
 import json
 import time
 
@@ -32,7 +31,7 @@ class Douyin:
         }
         oresp = session.get(live_url, headers=headers)
         oresp.close()
-
+'''
         # Extract __ac_nonce from Set-Cookie header
         ac_nonce_match = re.search(
             r"(?i)__ac_nonce=(.*?);", oresp.headers.get("Set-Cookie", "")
@@ -41,15 +40,32 @@ class Douyin:
             ac_nonce = ac_nonce_match.group(1)
         else:
             return None
-
+'''
+        # Alternative using string functions
+        cookie_header = oresp.headers.get("Set-Cookie", "")
+        start_index = cookie_header.find("__ac_nonce=")
+        if start_index != -1:
+            end_index = cookie_header.find(";", start_index)
+            ac_nonce = cookie_header[start_index + len("__ac_nonce=") : end_index]
+            ac_nonce_match = ac_nonce  # This is equivalent to re.match object in the original code
+        else:
+            ac_nonce_match = None
         # Set __ac_nonce cookie and send another request
         session.cookies.set("__ac_nonce", ac_nonce)
         resp = session.get(live_url, headers=headers)
-
+'''
         # Extract ttwid from Set-Cookie header
         ttwid_match = re.search(r"(?i)ttwid=.*?;", resp.headers.get("Set-Cookie", ""))
         if ttwid_match:
             ttwid = ttwid_match.group(0)
+        else:
+            return None
+'''
+        cookie_header = resp.headers.get("Set-Cookie", "")
+        start_index = cookie_header.find("ttwid=")
+        if start_index != -1:
+            end_index = cookie_header.find(";", start_index)
+            ttwid = cookie_header[start_index + len("ttwid=") : end_index]
         else:
             return None
 
@@ -170,11 +186,24 @@ def dy():
     dy_urls = []
 
     for x in range(len(name)):
+'''
         # Extract room ID from URL
         match = re.search(r"https://live.douyin.com/(\d+)", room_url[x])
         if not match:
             return None
         room_id = match.group(1)
+'''
+        
+        url = room_url[x]
+        if url.startswith("https://live.douyin.com/"):
+            room_id_start = len("https://live.douyin.com/")
+            room_id_end = url.find("/", room_id_start)
+            if room_id_end != -1:
+                room_id = url[room_id_start:room_id_end]
+            else:
+                room_id = url[room_id_start:]
+        else:
+            return None
         douyin_obj = Douyin(room_id, quality)
         douyin_url = douyin_obj.get_douyin_url()
         if douyin_url and douyin_url[0]=="h":
