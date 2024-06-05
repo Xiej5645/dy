@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask 
 import requests
 import re
 import json
@@ -185,7 +185,5 @@ def dy():
         else:
             dy_urls.append('name[x]')
 
-    #return {'dy_urls': dy_urls}
-    return render_template("s2.html", name=name, urls=dy_urls)
+    return {'dy_urls': dy_urls}
 
-  
