@@ -823,7 +823,7 @@ def static_html1():
 
     </html>
     """
-    return html_content2
+    return html_content1
 
 if __name__ == '__main__':
     app.run(debug=True)
