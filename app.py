@@ -30,7 +30,7 @@ def static_html():
     """
     return html_content
 
-@app.route('/m')
+@app.route('/dy')
 def static_html():
     html_content = """
 <!DOCTYPE html>
