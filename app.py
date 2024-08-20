@@ -28,6 +28,13 @@ def index():
     data = {
         'title': soup.title.string,
         'header': soup.h1.string if soup.h1 else 'No header found',
+        'paragraphs': [p.get_text() for p in soup.find_all('p')],
+        'links': [(a.get_text(), a['href']) for a in soup.find_all('a', href=True)],
+    }
+    
+    return render_template('index.html', data=data)
+
+        
         # Add more data extraction as needed
     }
     
