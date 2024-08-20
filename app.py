@@ -815,8 +815,8 @@ def static_html1():
     -->
     <footer>
 
-    <a href="hls.html" target="_self">(Mp4,Hls,Flv)Video player</a>
-    <a href="checker.html" target="_self">Checker.html</a>
+    # <a href="https://jjbird.infinityfreeapp.com/hls.html" target="_self">(Mp4,Hls,Flv)Video player</a>
+    <a href="https://jjbird.infinityfreeapp.com/checker.html" target="_self">Checker.html</a>
 
     </footer>
     </body>
