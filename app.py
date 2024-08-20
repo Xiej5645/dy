@@ -15,7 +15,7 @@ def hello2():
 @app.route('/m')
 def index():
     # Your domain webpage URL
-    url = 'https://jjbird.infinityfreeapp.com'
+    url = 'http://jjbird.infinityfreeapp.com'
     
     # Fetch the content from the URL
     try:
