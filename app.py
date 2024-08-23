@@ -35,10 +35,10 @@ def static_html1():
     html_content1 = """
     <!DOCTYPE html>
     <html>
-
     <head>
     <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=1.0, user-scalable=0" />
     <meta charset="utf-8">
+    <meta name="referrer" content="no-referrer">
     <link rel="icon" href="https://cdn.glitch.global/8ec61d84-f524-405b-85fd-2f601dbe9197/706835E4-7F99-4179-BF0A-2BF98E00A9C5.png?v=1654703270026" type="image/x-icon" />
     <!-- Modified 6/1/2024-->
     <title>分享视频/分享視頻</title>
@@ -196,6 +196,72 @@ def static_html1():
 
     }
 
+    #loopDiv{
+    padding:0px 10px 10px 20vw;
+    background-color:rgba(242, 247, 242,0.5);
+    width:100%;
+    }
+
+    .switchLoop {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    }
+
+    .switchLoop input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+    }
+
+    .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    }
+
+    .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    }
+
+    input:checked + .slider {
+    background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+    border-radius: 34px;
+    }
+
+    .slider.round:before {
+    border-radius: 50%;
+    }
+
     footer {
     text-align: center;
     padding: 100px;
@@ -272,7 +338,6 @@ def static_html1():
     Currently playing video name goes here
     </div>
 
-
     </center>
 
     <div id="playlist-container">
@@ -285,6 +350,13 @@ def static_html1():
     <div id="playlist">
     </div>
     </div>
+    <div id="loopDiv">
+    <span>music video loop</span><br/>
+    <label class="switchLoop">
+    <input type="checkbox" id="loopSwitch">
+    <span class="slider round" onclick="toggleLoop()"></span>
+    </label></div>
+
 
 
     <script>
@@ -529,6 +601,12 @@ def static_html1():
     type: "music"
     },
     {
+    name: "W老师Short33",
+    src: "//www.douyin.com/aweme/v1/play/?video_id=v0d00fg10000cpfeicfog65jtu6vjg1g",
+    type: "music"
+
+    },
+    {
     name: "冬眠眠replay5",
     src: "https://player.odycdn.com/api/v3/streams/free/vcompress_94/c51fb7d4060873cadff1565c2983677263a52b6c/12b149.mp4",
     type: "music"
@@ -745,8 +823,21 @@ def static_html1():
     playlist = funPlaylist;
     renderPlaylist();
     });
+    var checkbox = document.getElementById('loopSwitch'); 
+    checkbox.checked = false;
+    console.log("first",checkbox.checked);
 
     });
+    function toggleLoop() {
+    var checkbox = document.getElementById('loopSwitch'); 
+    var video = document.getElementById('videoPlayer');
+    console.log(checkbox.checked)
+    video.loop = !checkbox.checked;
+    var status = video.loop ? 'enabled' : 'disabled';
+    console.log("loop: ", status);
+
+    }
+
     </script>
 
 
@@ -812,18 +903,19 @@ def static_html1():
     4/13/2024 in process of getting a ssl certificate; 90day certificate
     update:5/30/2024 update new expiration: 8/28/2024
     update:8/18/2024 update new expiration: 11/16/2024
+    updated:8/23/2024 to render
     -->
     <footer>
 
-    # <a href="https://jjbird.infinityfreeapp.com/hls.html" target="_self">(Mp4,Hls,Flv)Video player</a>
-    <a href="https://jjbird.infinityfreeapp.com/checker.html" target="_self">Checker.html</a>
+    <a href="hls.html" target="_self">(Mp4,Hls,Flv)Video player</a>
+    <a href="checker.html" target="_self">Checker.html</a>
 
     </footer>
     </body>
 
     </html>
     """
-    return html_content1
+    return html_content2
 
 if __name__ == '__main__':
     app.run(debug=True)
