@@ -16,25 +16,9 @@ def hello2():
 def static_html():
     html_content = """
     <!DOCTYPE html>
-    <html>
-    <head>
-    <title>Page Title</title>
-    </head>
-    <body>
-    
-    <h1>This is a Heading</h1>
-    <p>This is a paragraph.</p>
-    
-    </body>
-    </html>
-    """
-    return html_content
-
-@app.route('/dy1')
-def static_html1():
-    html_content1 = """
     <!DOCTYPE html>
     <html>
+
     <head>
     <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=1.0, user-scalable=0" />
     <meta charset="utf-8">
@@ -195,7 +179,6 @@ def static_html1():
     border-radius: 20px;
 
     }
-
     #loopDiv{
     padding:0px 10px 10px 20vw;
     background-color:rgba(242, 247, 242,0.5);
@@ -338,6 +321,7 @@ def static_html1():
     Currently playing video name goes here
     </div>
 
+
     </center>
 
     <div id="playlist-container">
@@ -356,7 +340,6 @@ def static_html1():
     <input type="checkbox" id="loopSwitch">
     <span class="slider round" onclick="toggleLoop()"></span>
     </label></div>
-
 
 
     <script>
@@ -681,7 +664,7 @@ def static_html1():
     } else {
     document.querySelector("iframe").style.width = "350px";
     }
-    if (playlist[currentVideoIndex].src.includes("douyin.com") || playlist[currentVideoIndex].src.includes("bilibili")) {
+    if (playlist[currentVideoIndex].src.includes("open.douyin.com") || playlist[currentVideoIndex].src.includes("bilibili")) {
     // If the next video is a Douyin URL, show it in an iframe
     document.getElementById("videoPlayer").style.display = "none";
     document.querySelector("iframe").style.display = "block";
@@ -704,7 +687,7 @@ def static_html1():
     } else {
     document.querySelector("iframe").style.width = "350px";
     }
-    if (playlist[0].src.includes("douyin.com") || playlist[0].src.includes("bilibili")) {
+    if (playlist[0].src.includes("open.douyin.com") || playlist[0].src.includes("bilibili")) {
     document.getElementById("videoPlayer").style.display = "none";
     document.querySelector("iframe").style.display = "block";
     document.querySelector("iframe").src = playlist[0].src;
@@ -738,8 +721,8 @@ def static_html1():
     } else {
     document.querySelector("iframe").style.width = "350px";
     }
-    if (video.src.includes("douyin.com") || video.src.includes("bilibili")) {
-    // If clicked item is a Douyin URL, show it in an iframe
+    if (video.src.includes("open.douyin.com") || video.src.includes("bilibili")) {
+    // If clicked item is a Douyin/bilibili URL, show it in an iframe
     videoPlayer.pause();
     document.getElementById("videoPlayer").style.display = "none";
     document.querySelector("iframe").style.display = "block";
@@ -750,7 +733,7 @@ def static_html1():
     // Otherwise, play it in the video player
     document.getElementById("videoPlayer").style.display = "block";
     document.querySelector("iframe").style.display = "none";
-    document.querySelector("iframe").src = "https://jjbird1.glitch.me";
+    document.querySelector("iframe").src = "https://jjbird1.glitch.me/path.html";
     videoPlayer.src = "";
     videoPlayer.src = video.src;
     videoPlayer.load();
@@ -790,7 +773,7 @@ def static_html1():
     } else {
     document.querySelector("iframe").style.width = "350px";
     }
-    if (playlist[0].src.includes("douyin.com") || playlist[0].src.includes("bilibili")) {
+    if (playlist[0].src.includes("open.douyin.com") || playlist[0].src.includes("bilibili")) {
     document.getElementById("videoPlayer").style.display = "none";
     document.querySelector("iframe").style.display = "block";
     document.querySelector("iframe").src = playlist[0].src;
@@ -826,17 +809,24 @@ def static_html1():
     var checkbox = document.getElementById('loopSwitch'); 
     checkbox.checked = false;
     console.log("first",checkbox.checked);
-
     });
+
     function toggleLoop() {
     var checkbox = document.getElementById('loopSwitch'); 
     var video = document.getElementById('videoPlayer');
     console.log(checkbox.checked)
-    video.loop = !checkbox.checked;
-    var status = video.loop ? 'enabled' : 'disabled';
+    if(!checkbox.checked){
+    video.setAttribute("loop","")
+    }
+    else{
+    video.removeAttribute("loop");
+    }
+    var status = video.loop;
     console.log("loop: ", status);
 
     }
+
+
 
     </script>
 
