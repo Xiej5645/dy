@@ -45,10 +45,11 @@ def static_html1():
     <title>分享视频/分享視頻</title>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
     const observer = lozad(); // lazy loads elements with default selector as '.lozad'
     observer.observe();
     });
+
     </script>
 
     <style>
@@ -67,7 +68,6 @@ def static_html1():
     /* Position the image at the top center */
     /*background-size: 100% 3000px;*/
     /* width 100% and height 500px */
-
     }
 
     #playlist-container {
@@ -102,13 +102,11 @@ def static_html1():
     /* Set a fixed height */
     overflow-y: auto;
     /* Enable vertical scrolling */
-
     /* Scrollbar styling */
     scrollbar-width: thin;
     /* For Firefox */
     scrollbar-color: gray;
     /* For Firefox */
-
     }
 
     #playlist::-webkit-scrollbar {
@@ -133,7 +131,6 @@ def static_html1():
     padding: 5px;
     padding-top: 6.9px;
     border: solid 1px gray;
-
     }
 
     #playlist div:hover {
@@ -188,18 +185,22 @@ def static_html1():
     padding: 5px;
     padding-top: 6.9px;
     border: solid 1px gray;
-
     }
 
     .switch {
     font-size: 10px;
     border-radius: 20px;
-
     }
-    #loopDiv{
-    padding:0px 10px 10px 20vw;
-    background-color:rgba(242, 247, 242,0.5);
-    width:100%;
+
+    #loopDiv {
+    padding: 0px 10px 10px 20vw;
+    background-color: rgba(242, 247, 242, 0.5);
+    width: 100%;
+    position: relative;
+    margin-top: 0px;
+    display: block;
+    padding-top: 36px;
+    z-index: -1;
     }
 
     .switchLoop {
@@ -209,7 +210,7 @@ def static_html1():
     height: 34px;
     }
 
-    .switchLoop input { 
+    .switchLoop input {
     opacity: 0;
     width: 0;
     height: 0;
@@ -239,15 +240,15 @@ def static_html1():
     transition: .4s;
     }
 
-    input:checked + .slider {
+    input:checked+.slider {
     background-color: #2196F3;
     }
 
-    input:focus + .slider {
+    input:focus+.slider {
     box-shadow: 0 0 1px #2196F3;
     }
 
-    input:checked + .slider:before {
+    input:checked+.slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
@@ -285,6 +286,7 @@ def static_html1():
     margin-right: 0;
     /* No margin on the right for the last link */
     }
+
     </style>
     </head>
 
@@ -292,8 +294,6 @@ def static_html1():
 
     <h1>欢迎来到新网站：链接库</h1>
     <h2>歡迎來到新網站：連結庫</h2>
-
-
 
     <div style="display:flex; align-items:center;justify-content: center;">
 
@@ -308,13 +308,14 @@ def static_html1():
     </div>
 
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
     // Disable zooming on double click for the reverseButton
     var reverseButton = document.getElementById("reverseButton");
-    reverseButton.addEventListener("dblclick", function(event) {
+    reverseButton.addEventListener("dblclick", function (event) {
     event.preventDefault();
     });
     });
+
     </script>
     <center>
 
@@ -338,7 +339,6 @@ def static_html1():
     Currently playing video name goes here
     </div>
 
-
     </center>
 
     <div id="playlist-container">
@@ -352,12 +352,12 @@ def static_html1():
     </div>
     </div>
     <div id="loopDiv">
-    <span>music video loop</span><br/>
+    <span>music video loop</span><br />
     <label class="switchLoop">
     <input type="checkbox" id="loopSwitch">
     <span class="slider round" onclick="toggleLoop()"></span>
-    </label></div>
-
+    </label>
+    </div>
 
     <script>
     let playlist1 = [{
@@ -604,7 +604,6 @@ def static_html1():
     name: "W老师Short33",
     src: "//www.douyin.com/aweme/v1/play/?video_id=v0d00fg10000cpfeicfog65jtu6vjg1g",
     type: "music"
-
     },
     {
     name: "冬眠眠replay5",
@@ -651,26 +650,19 @@ def static_html1():
     { name: "Video 53", src: "", type: "music" },
 
     */
-
     /* 冬眠眠二创节目（上） 7357019897307696393*/
     ];
-
     //playlist.reverse(); // Optionally reverse the playlist
-
     window.addEventListener("DOMContentLoaded", () => {
     let playlist = playlist1;
-
     let switchType1Button = document.getElementById("switchType1");
     let switchType2Button = document.getElementById("switchType2");
-
-
     let videoPlayer = document.getElementById("videoPlayer");
     let playlistContainer = document.getElementById("playlist");
     let reverseButton = document.getElementById("reverseButton");
     let playingText = document.getElementById("playing-text"); // Reference to the center div
     let currentVideoIndex = 0;
     let currentVideoName = playlist[currentVideoIndex].name; // Get the name of the current video
-
     function playNextVideo() {
     // Function to play the next video in the playlist
     currentVideoIndex = (currentVideoIndex + 1) % playlist.length;
@@ -695,9 +687,7 @@ def static_html1():
     videoPlayer.play();
     }
     }
-
     videoPlayer.addEventListener("ended", playNextVideo); // Event listener for video end
-
     // Check if the default URL is a Douyin URL
     if (playlist[0].src.includes("bilibili")) {
     document.querySelector("iframe").style.width = "550px";
@@ -717,13 +707,11 @@ def static_html1():
     }
     currentVideoName = playlist[currentVideoIndex].name;
     playingText.textContent = currentVideoName; // Update the center div with the current video name
-
     function renderPlaylist() {
     // Function to render the playlist items dynamically
     playlistContainer.innerHTML = ""; // Clear previous playlist items
     //document.querySelector("ul").innerHTML = ""; // Clear previous list items
     document.getElementById("ul1").innerHTML = "";
-
     playlist.forEach((video, index) => {
     // Loop through the playlist array
     let divItem = document.createElement("div");
@@ -731,7 +719,6 @@ def static_html1():
     playlistItem.style.overflow = "hidden";
     playlistItem.textContent = video.name;
     playlistItem.addEventListener("click", () => {
-
     // Event listener for clicking on a playlist item
     if (video.src.includes("bilibili")) {
     document.querySelector("iframe").style.width = "550px";
@@ -759,11 +746,8 @@ def static_html1():
     currentVideoIndex = index;
     currentVideoName = playlist[currentVideoIndex].name;
     playingText.textContent = currentVideoName; // Update the center div with the current video name
-
     });
-
     playlistContainer.appendChild(playlistItem); // Append playlist item to container
-
     // Dynamically add list items with URLs from the playlist array
     /*
     let listItem = document.createElement("li");
@@ -776,14 +760,11 @@ def static_html1():
     */
     });
     }
-
     renderPlaylist(); // Render the playlist items initially
-
     reverseButton.addEventListener("click", () => {
     // Event listener for reversing the playlist
     playlist.reverse(); // Reverse the playlist array
     renderPlaylist(); // Render the reversed playlist
-
     // Check if the default URL is a Douyin URL after reversing
     if (playlist[0].src.includes("bilibili")) {
     document.querySelector("iframe").style.width = "550px";
@@ -803,50 +784,41 @@ def static_html1():
     currentVideoName = playlist[currentVideoIndex].name;
     playingText.textContent = currentVideoName; // Update the center div with the current video name
     });
-
-    switchType1Button.addEventListener("click", function() {
+    switchType1Button.addEventListener("click", function () {
     switchType1Button.style.display = "none"; // Hide switchType1Button
     switchType2Button.style.display = "inline-block"; // Show switchType2Button
-
     // Filter the playlist to show only music videos
     let musicPlaylist = playlist1.filter(video => video.type === "music");
     playlist = musicPlaylist;
     renderPlaylist();
     });
-
-    switchType2Button.addEventListener("click", function() {
+    switchType2Button.addEventListener("click", function () {
     switchType1Button.style.display = "inline-block"; // Show switchType1Button
     switchType2Button.style.display = "none"; // Hide switchType2Button
-
     // Filter the playlist to show only entertainment videos
     let funPlaylist = playlist1.filter(video => video.type === "fun");
     playlist = funPlaylist;
     renderPlaylist();
     });
-    var checkbox = document.getElementById('loopSwitch'); 
+    var checkbox = document.getElementById('loopSwitch');
     checkbox.checked = false;
-    console.log("first",checkbox.checked);
+    console.log("first", checkbox.checked);
     });
 
     function toggleLoop() {
-    var checkbox = document.getElementById('loopSwitch'); 
+    var checkbox = document.getElementById('loopSwitch');
     var video = document.getElementById('videoPlayer');
     console.log(checkbox.checked)
-    if(!checkbox.checked){
-    video.setAttribute("loop","")
-    }
-    else{
+    if (!checkbox.checked) {
+    video.setAttribute("loop", "")
+    } else {
     video.removeAttribute("loop");
     }
     var status = video.loop;
     console.log("loop: ", status);
-
     }
 
-
-
     </script>
-
 
     <div style="padding:0px 0px 30px 0px;">
 
