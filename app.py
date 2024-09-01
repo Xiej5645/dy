@@ -897,7 +897,7 @@ def static_html1():
     return html_content1
 
 @app.route('/write.html')
-def static_html():
+def static_html2():
     html_content2 = """
     <!DOCTYPE html>
     <html lang="en">
