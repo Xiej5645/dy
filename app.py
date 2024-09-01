@@ -896,5 +896,535 @@ def static_html1():
     """
     return html_content1
 
+@app.route('/write.html')
+def static_html():
+    html_content2 = """
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+    <link rel="icon" href="https://cdn.glitch.global/8ec61d84-f524-405b-85fd-2f601dbe9197/706835E4-7F99-4179-BF0A-2BF98E00A9C5.png?v=1654703270026" type="image/x-icon" />
+    <title>Chinese Tool</title>
+    <style>
+    body {
+    text-align: center;
+    height: 100vh;
+    margin: 0;
+    }
+
+    body * {
+    margin: 3px;
+    border: 0px solid;
+    }
+
+    #chara {
+    outline: 2px solid green;
+    height: 30px;
+    font-size: 20px;
+    }
+
+    #character-target-div {
+    margin-top: 10px;
+    border: 1px solid;
+    border-style: dashed dashed;
+    }
+
+    .hidden {
+    display: none;
+    }
+
+    .success-message {
+    color: green;
+    font-size: 16px;
+    margin-top: 10px;
+    }
+
+    .featureBox {
+    display: flex;
+    flex-direction: row;
+    align-items: top;
+    border: 1px solid;
+    }
+
+    .featureBox ul {
+    width: 60px;
+    padding-left: 15px;
+    }
+
+    .featureBox li {
+    list-style: outside disc;
+    }
+
+    .featureBox #textBox {
+    width: inherit;
+    height: inherit;
+    border: 1px solid;
+    display: none;
+    align-items: center;
+    }
+
+    .featureBox #textBox textarea {
+    flex: 1;
+    width: 100%;
+    box-sizing: border-box;
+    height: 65px;
+    overflow: auto;
+    }
+
+    .switch-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60px;
+    }
+
+    .switch {
+    height: 22px;
+    }
+
+    .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    }
+
+    .slider {
+    top: -15px;
+    position: relative;
+    display: block;
+    width: 50px;
+    height: 25px;
+    background-color: #ccc;
+    border-radius: 34px;
+    cursor: pointer;
+    transition: .4s;
+    }
+
+    .slider:before {
+    position: absolute;
+    content: "";
+    height: 17px;
+    width: 17px;
+    border-radius: 50%;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    }
+
+    input:checked+.slider {
+    background-color: #2196F3;
+    }
+
+    input:checked+.slider:before {
+    transform: translateX(26px);
+    }
+
+    .switch-label {
+    font-size: 11px;
+    color: #333;
+    margin-top: 10px;
+    }
+
+    #toggleInput {
+    background-color: lightblue;
+    border-radius: 20px;
+    }
+
+    #toggleInput:hover {
+    background-color: blue;
+    color: white;
+    border-radius: 20px;
+    }
+
+    /* ime.scss */
+    .toolBar,
+    .ime-box {}
+
+    .chinese-checkbox {
+    color: #666;
+    font-size: 10px;
+    padding: 5px;
+    }
+
+    #chinese-ime {
+    font-family: Arial, Sans-serif;
+    font-size: 14px;
+    position: absolute;
+    background: #fff;
+    border: 1px solid #aaa;
+    width: 230px;
+    height: 90px;
+    padding: 4px;
+    }
+
+    #chinese-ime .typing {
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-right-color: #54BDF0;
+    }
+
+    #chinese-ime ul.options {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    }
+
+    #chinese-ime ul.options li {
+    float: left;
+    padding: 0.2em;
+    }
+
+    #chinese-ime ul.options li.current {
+    background: #eee;
+    }
+
+    #copyButton {
+    opacity: 0.3;
+    border: 0.1px solid;
+    }
+
+    @media (max-width: 600px) {
+    body {
+    background-color: transparent;
+    }
+
+    .charBtn {
+    font-size: 24px;
+    }
+
+    .ime-box {
+    width: 120px;
+    }
+    #chinese-ime{
+    height: 60px;
+    font-size: 10px; 
+    }
+    }
+
+    .flex-row-top {
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: row;
+    }
+
+    .flex-column {
+    flex: 1;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    }
+
+    .flex-column-bottom {
+    flex: 1;
+    overflow: auto;
+    text-align: left;
+    }
+
+    #chinese-toolbar-1 {
+    background-color: lightblue;
+    border: 0px solid red;
+    transition: border-color 0.3s;
+    }
+
+    #chinese-toolbar-1.active {
+    border: 2px solid red;
+    }
+
+    #chinese-toolbar-1 * {
+    background-color: white;
+    }
+
+    </style>
+    </head>
+
+    <body>
+    <main>
+    <h1>Learn Chinese Tool</h1>
+    <p>
+    Simple Free tool to learn Chinese, Recognize/Identify and Learn Chinese
+    character and stroke order
+    </p>
+    <form onsubmit="handleSubmit(event)" id="char-form">
+    <label for="chara">Enter Chinese Characters（default max 10）:</label>
+    <input id="chara" type="text" placeholder="Enter Chinese Characters" maxlength="10" pattern="[\u4e00-\u9fff]{1,10}" title="Please enter up to 10 Chinese characters." value="凤" required>
+    <span id="error-message" class="hidden">Please enter only Chinese characters.</span>
+    <button type="submit">Submit</button>
+    </form>
+
+    <div class="featureBox">
+    <!-- Top flex row with two columns -->
+    <div class="flex-row-top">
+    <div class="flex-column">
+    <div class="switch-container">
+    <label class="switch">
+    <input type="checkbox" id="removeLimit">
+    <span class="slider"></span>
+    </label>
+    <span class="switch-label">Remove Limit</span>
+    </div>
+
+    </div>
+    </div>
+    <!-- Bottom flex column -->
+    <div class="flex-column-bottom">
+    <div style="border:0px solid red;">
+    <button id="toggleInput" onclick="toggleInput()">Toggle Online Input(simple/minimal version)</button>
+    <button id="defineC" onclick="window.open(`https://www.archchinese.com/chinese_english_dictionary.html?find=${userC}`, '_blank')">Search Dictionary for current character</button>
+    </div>
+    <div id="textBox">
+    <textarea id="textarea1" class="chinese" autocomplete="off" spellcheck="false" placeholder="Control+Shift to toggle Chinese input | Use number/space/left right arrows to select | , or . to go back or next page | Type here:"></textarea>
+    </div>
+
+    </div>
+    </div>
+
+    <div id="success-message" class="hidden success-message">valid input</div>
+    <div id="buttons-container"></div>
+
+    <div id="character-target-div"></div>
+    <div id="btnBox">
+    <button id="animate-button">Animate</button>
+    <button id="quiz-button">Quiz</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/gh/Kaifuny/pinyin4js/dist/pinyin4js.js"></script>    
+    <script>
+    const input = document.getElementById('chara');
+    const errorMessage = document.getElementById('error-message');
+    const successMessage = document.getElementById('success-message');
+    const targetBox = document.getElementById('character-target-div');
+    const defineC = document.getElementById('defineC');
+    const isValid = /^[\u4e00-\u9fff]$/.test(input.value);
+    var message;
+    var userC = input.value;
+    var userCText;     
+    var writer;
+
+    function handleSubmit(event = "empty") {
+    if (event != "empty") {
+    event.preventDefault(); // Prevent the form from submitting
+    }
+    const buttonsContainer = document.getElementById('buttons-container');
+    const char = input.value.trim();
+    // Array to store characters
+    let charArray = [];
+    if (char) {
+    charArray = Array.from(char);
+    console.log(charArray);
+    updateButtons(); // Update buttons 
+    }
+    //input.value = ''; // Clear input field
+    //input.focus(); // Focus on the input field for the next character
+    //Function to update buttons  
+    function updateButtons() {
+    buttonsContainer.innerHTML = ''; // Clear existing buttons
+    charArray.forEach(char => {
+    const button = document.createElement('button');
+    button.textContent = char;
+    button.className = 'charBtn';
+    button.addEventListener('click', function () {
+    userC = char;
+    targetBox.innerHTML = "";
+    toWriter();
+    });
+    buttonsContainer.appendChild(button);
+    });
+    }
+    if (isValid) {
+    errorMessage.style.display = 'none';
+    successMessage.innerHTML = `valid ${charArray.length}`;
+    message = successMessage.innerHTML;
+    successMessage.style.display = 'block';
+    } else {
+    successMessage.style.display = 'none';
+    errorMessage.textContent = 'Please enter only Chinese characters.';
+    message = errorMessage.innerHTML;
+    errorMessage.style.display = 'block';
+    }
+    }
+
+    function copyT(event) {
+    event.stopPropagation();
+    var textarea = document.getElementById('textarea1');
+    // Select the text
+    textarea.select();
+    textarea.setSelectionRange(0, 99999); // For mobile devices
+    try {
+    // Copy the text to clipboard
+    var successful = document.execCommand('copy');
+    if (successful) {
+    console.log('Text copied to clipboard');
+    errorMessage.style.display = 'none';
+    successMessage.innerHTML = `Text copied to clipboard`;
+    successMessage.style.display = 'block';
+    setTimeout(function () {
+    successMessage.innerHTML = message;
+    successMessage.style.display = 'none';
+    }, 1000);
+    } else {
+    console.log('Failed to copy text');
+    errorMessage.style.display = 'none';
+    successMessage.innerHTML = `Failed to copy text`;
+    successMessage.style.display = 'block';
+    setTimeout(function () {
+    successMessage.innerHTML = message;
+    successMessage.style.display = 'none';
+    }, 1000);
+    }
+    } catch (err) {
+    console.error('Failed to copy text: ', err);
+    }
+    }
+
+    function toggleInput() {
+    var element = document.getElementById('textBox');
+    element.style.display = (element.style.display === 'none' || element.style.display === '') ? 'block' : 'none';
+    }
+
+    function toWriter() {
+    userCText = PinyinHelper.convertToPinyinString(userC, '', PinyinFormat.WITH_TONE_MARK);
+    defineC.innerHTML = `Search Dictionary for current character: ${userC},${userCText}`;
+    if (userC.match(/\p{Script=Han}/u)) {
+    document.getElementById("btnBox").style.display = "block";
+    writer = HanziWriter.create("character-target-div", userC, {
+    width: 300,
+    height: 300,
+    padding: 5,
+    strokeColor: "#000",
+    radicalColor: "rgb(0,0,255)",
+    showOutline: true,
+    strokeAnimationSpeed: 1, // 3x normal speed
+    delayBetweenStrokes: 100, // milliseconds,
+    delayBetweenLoops: 2000,
+    });
+    writer.loopCharacterAnimation();
+    //writer.quiz();
+    } else {
+    document.getElementById("btnBox").style.display = "none";
+    alert("Invalid input value");
+    }
+    }
+    document.getElementById("animate-button").addEventListener("click", function () {
+    writer.animateCharacter();
+    });
+    document.getElementById("quiz-button").addEventListener("click", function () {
+    writer.quiz();
+    });
+    document.getElementById('removeLimit').addEventListener('change', function () {
+    if (this.checked) {
+    input.removeAttribute('maxlength');
+    input.setAttribute('pattern', '[\u4e00-\u9fff]+');
+    input.setAttribute('title', 'Please enter up to 10 Chinese characters.');
+    } else {
+    input.setAttribute('maxlength', '10');
+    input.setAttribute('pattern', '[\u4e00-\u9fff]{1,10}');
+    }
+    });
+    //handleSubmit();
+    toWriter();
+
+    </script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>
+
+    <!-- Load this script if you want traditional character support -->
+    <script type="text/javascript" charset="utf-8" src="https://cdn.jsdelivr.net/gh/hermanschaaf/chinese-ime/trad_chars.js"></script>
+    <!-- Load this script if you want support for adding the text at the caret position -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/hermanschaaf/chinese-ime/caret.js"></script>
+    <!-- The actual script --
+    <script type="text/javascript" src="https://nycteachhub-alternative.glitch.me/chIME.js"></script>-->
+    <script type="text/javascript" src="https://static.staticsave.com/srcvg/chime-js.js"></script>
+    <script type="text/javascript">
+    var chineseInputInstance;
+    $(document).ready(function () {
+    chineseInputInstance = $("textarea.chinese").chineseInput({
+    debug: false,
+    input: {
+    initial: 'traditional',
+    allowChange: true
+    },
+    allowHide: true,
+    active: true
+    });
+    });
+    document.addEventListener('keydown', function (event) {
+    // Check if the 'Control' key is pressed
+    //event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key === 'Control'
+    if (event.ctrlKey && event.shiftKey && !event.altKey && !event.metaKey) {
+    // Find the first checkbox on the page
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    var imeCheckbox;
+    if (checkboxes.length > 0) {
+    imeCheckbox = checkboxes[1];
+    }
+    // Check if a checkbox was found
+    if (imeCheckbox) {
+    // Toggle the checked state
+    imeCheckbox.checked = !imeCheckbox.checked;
+    if (chineseInputInstance) {
+    var currentOptions = chineseInputInstance.data('chineseInput').options;
+    // Toggle the active state
+    currentOptions.active = !currentOptions.active;
+    }
+    }
+    }
+    });
+
+    </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+    const draggable = document.getElementById('chinese-toolbar-1');
+    // Function to move the div and remove border
+    const moveDiv = (e) => {
+    // Move the div to the new click position
+    const rect = draggable.getBoundingClientRect();
+    draggable.style.left = `${e.clientX - rect.width / 2}px`;
+    draggable.style.top = `${e.clientY - rect.height / 2}px`;
+    // Remove the 'active' class to hide the border
+    draggable.classList.remove('active');
+    // Remove the click event listener from the document
+    document.removeEventListener('click', moveDiv);
+    };
+    // Add click event listener to the div
+    draggable.addEventListener('click', (e) => {
+    // Prevent the event from propagating to the document
+    e.stopPropagation();
+    // Show the border
+    draggable.classList.add('active');
+    // Add click event listener to the document to move the div
+    document.addEventListener('click', moveDiv);
+    });
+    });
+
+    </script>
+
+    <footer>
+    Personal Dev debug tools
+    <a href="./screen.html">Check screen</a>
+    <a href="./checkS.html">Check media</a>
+    <div style="text-align:left"><p>
+    Public Sources Used for this Private Project:
+    <ul>
+    <li><a href="https://github.com/chanind/hanzi-writer" target="_blank">https://github.com/chanind/hanzi-writer(MIT License)</a></li>
+    <li><a href="https://github.com/Kaifuny/pinyin4js" target="_blank">https://github.com/Kaifuny/pinyin4js(MIT License)</a></li>
+    <li><a href="https://github.com/hermanschaaf/chinese-ime" target="_blank">https://github.com/hermanschaaf/chinese-ime(GNU Lesser General Public License v3.0)</a></li>
+    </ul></p></div>
+    </footer>
+    </main>
+
+    </body>
+
+    </html>
+    """
+    return html_content2
+
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
